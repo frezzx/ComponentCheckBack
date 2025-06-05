@@ -10,10 +10,10 @@ export interface QuizQuestion {
 
 dotenv.config();
 
-const apiKey = process.env.MISTRAL_API_KEY;
-if (!apiKey) {
-  throw new Error('MISTRAL_API_KEY não encontrada no .env');
-}
+// const apiKey = process.env.MISTRAL_API_KEY;
+// if (!apiKey) {
+//   throw new Error('MISTRAL_API_KEY não encontrada no .env');
+// }
 
 const client = new Mistral({
   apiKey: process.env.MISTRAL_API_KEY, 
@@ -25,9 +25,9 @@ export class MistralAIService {
   private readonly logger = new Logger(MistralAIService.name);
 
   constructor() {
-    if (!process.env.MISTRAL_API_KEY) {
-      throw new Error('MISTRAL_API_KEY não encontrada no .env');
-    }
+    // if (!process.env.MISTRAL_API_KEY ) {
+    //   throw new Error('MISTRAL_API_KEY não encontrada no .env');
+    // }
 
     this.mistral = new Mistral({
       apiKey: process.env.MISTRAL_API_KEY,

@@ -1,25 +1,29 @@
-# Estágio de construção
+# Etapa de build
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Instala dependências (incluindo devDependencies)
+# Copia arquivos de dependência
+COPY package.json yarn.lock ./
+
+# Instala dependências
 RUN yarn install --frozen-lockfile
 
-# Copia o resto do código
+# Copia o restante do código
 COPY . .
 
-# Build da aplicação
+# Compila a aplicação
 RUN yarn build
 
-# Estágio final
+# Etapa final
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copia apenas o necessário
-COPY --from=builder /app/node_modules ./node_modules
+# Copia apenas o necessário do estágio "builder"
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/yarn.lock ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
